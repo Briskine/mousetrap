@@ -173,9 +173,9 @@
      * @param {Function} callback
      * @returns void
      */
-    function _addEvent(object, type, callback) {
+    function _addEvent(object, type, callback, options) {
         if (object.addEventListener) {
-            object.addEventListener(type, callback, false);
+            object.addEventListener(type, callback, options);
             return;
         }
 
@@ -432,13 +432,13 @@
         return _belongsTo(element.parentNode, ancestor);
     }
 
-    function Mousetrap(targetElement) {
+    function Mousetrap(targetElement, options = {}) {
         var self = this;
 
         targetElement = targetElement || document;
 
         if (!(self instanceof Mousetrap)) {
-            return new Mousetrap(targetElement);
+            return new Mousetrap(targetElement, options);
         }
 
         /**
@@ -714,7 +714,6 @@
          * @returns void
          */
         function _handleKeyEvent(e) {
-
             // normalize e.which for key events
             // @see http://stackoverflow.com/questions/4285627/javascript-keycode-vs-charcode-utter-confusion
             if (typeof e.which !== 'number') {
@@ -886,9 +885,9 @@
         };
 
         // start!
-        _addEvent(targetElement, 'keypress', _handleKeyEvent);
-        _addEvent(targetElement, 'keydown', _handleKeyEvent);
-        _addEvent(targetElement, 'keyup', _handleKeyEvent);
+        _addEvent(targetElement, 'keypress', _handleKeyEvent, options);
+        _addEvent(targetElement, 'keydown', _handleKeyEvent, options);
+        _addEvent(targetElement, 'keyup', _handleKeyEvent, options);
     }
 
     /**

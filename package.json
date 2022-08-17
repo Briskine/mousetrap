@@ -1,17 +1,18 @@
 {
   "name": "mousetrap",
-  "version": "1.6.5",
+  "version": "1.7.0",
+  "private": true,
   "description": "Simple library for handling keyboard shortcuts",
   "main": "mousetrap.js",
   "directories": {
     "test": "tests"
   },
   "scripts": {
-    "test": "mocha --reporter=nyan tests/test.mousetrap.js"
+    "test": "mocha-headless-chrome -f tests/mousetrap.html --reporter=nyan"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/ccampbell/mousetrap.git"
+    "url": "git://github.com/briskine/mousetrap.git"
   },
   "keywords": [
     "keyboard",
@@ -20,15 +21,12 @@
   ],
   "author": "Craig Campbell",
   "license": "Apache-2.0 WITH LLVM-exception",
-  "gitHead": "c202a0bd4967d5a3064f9cb376db51dec9345336",
   "readmeFilename": "README.md",
   "devDependencies": {
-    "chai": "^4.2.0",
-    "grunt": "~1.0.3",
-    "grunt-complexity": "~1.1.0",
-    "jsdom": "^13.1.0",
-    "jsdom-global": "^3.0.2",
-    "mocha": "^5.2.0",
-    "sinon": "^7.2.2"
+    "chai": "^4.3.6",
+    "jquery": "^3.6.0",
+    "mocha": "^10.0.0",
+    "mocha-headless-chrome": "^4.0.0",
+    "sinon": "^14.0.0"
   }
 }

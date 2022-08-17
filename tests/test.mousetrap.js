@@ -6,12 +6,6 @@ var sinon = sinon || require('sinon');
 var chai = chai || require('chai');
 var expect = chai.expect;
 
-if (typeof window === 'undefined') {
-  require('mocha');
-  require('jsdom-global')();
-}
-
-// Load libraries that require access to the DOM after `jsdom-global`
 var Mousetrap = Mousetrap || require('./../mousetrap');
 var KeyEvent = KeyEvent || require('./libs/key-event');
 
@@ -581,7 +575,7 @@ describe('Mousetrap.bind', function () {
 
     it('sequence timer resets', function () {
       var spy = sinon.spy();
-      var clock = sinon.useFakeTimers();
+      var clock = sinon.useFakeTimers({shouldClearNativeTimers: true});
 
       Mousetrap.bind('h a t', spy);
 
@@ -597,7 +591,7 @@ describe('Mousetrap.bind', function () {
 
     it('sequences timeout', function () {
       var spy = sinon.spy();
-      var clock = sinon.useFakeTimers();
+      var clock = sinon.useFakeTimers({shouldClearNativeTimers: true});
 
       Mousetrap.bind('g t', spy);
       KeyEvent.simulate('g'.charCodeAt(0), 71);
@@ -651,6 +645,40 @@ describe('Mousetrap.bind', function () {
         it('"' + key + '" uses "' + type + '"', getCallback(key, keyCode, type, modifiers));
       }
     }
+  });
+
+  describe('useCapture', function () {
+    it('z key fires last, without useCapture', function () {
+      var spy = sinon.spy();
+
+      Mousetrap.bind('z', spy);
+      document.addEventListener('keypress', spy, true);
+
+      KeyEvent.simulate('Z'.charCodeAt(0), 90);
+
+      expect(spy.callCount).to.equal(2, 'callback should fire twice');
+      expect(spy.args[0][1]).to.equal(undefined, 'second argument of first event should be undefined');
+      expect(spy.args[1][1]).to.equal('z', 'second argument of second event should be key combo');
+
+      document.removeEventListener('keypress', spy, true);
+    });
+
+    it('z key fires first, with useCapture', function () {
+      var spy = sinon.spy();
+
+      const mousetrapWithCapture = new Mousetrap(document, true);
+
+      mousetrapWithCapture.bind('z', spy);
+      document.addEventListener('keypress', spy, true);
+
+      KeyEvent.simulate('Z'.charCodeAt(0), 90);
+
+      expect(spy.callCount).to.equal(2, 'callback should fire twice');
+      expect(spy.args[0][1]).to.equal('z', 'second argument of second event should be key combo');
+      expect(spy.args[1][1]).to.equal(undefined, 'second argument of first event should be undefined');
+
+      document.removeEventListener('keypress', spy, true);
+    });
   });
 });
 

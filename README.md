@@ -1,5 +1,16 @@
 # Mousetrap
-[![CDNJS](https://img.shields.io/cdnjs/v/mousetrap.svg)](https://cdnjs.com/libraries/mousetrap)
+
+> Mousetrap fork with `useCapture` and `addEventListeners` options support.
+
+```js
+// with useCapture
+const useCapture = new Mousetrap(document, true)
+
+// with options
+const listenerOptions = new Mousetrap(document, { capture: true })
+```
+
+---
 
 Mousetrap is a simple library for handling keyboard shortcuts in Javascript.
 
@@ -19,7 +30,7 @@ It has support for `keypress`, `keydown`, and `keyup` events on specific keys, k
 1. Include mousetrap on your page before the closing `</body>` tag
 
     ```html
-    <script src="/path/to/mousetrap.min.js"></script>
+    <script src="/path/to/mousetrap.js"></script>
     ```
 
     or install `mousetrap` from `npm` and require it
